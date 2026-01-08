@@ -1,0 +1,7 @@
+{
+  "name": "Caminhando na Bíblia",
+  "description": "Uma plataforma educacional híbrida que conecta a leitura bíblica física com suporte digital, focada em escolas e igrejas.",
+  "requestFramePermissions": [
+    "microphone"
+  ]
+}

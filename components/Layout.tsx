@@ -1,6 +1,7 @@
+
 import React from 'react';
-import { Tenant } from '../types';
-import { BookOpen, Award, Settings, Menu } from 'lucide-react';
+import { Tenant } from '../types.ts';
+import { BookOpen, Users, HeartHandshake, Settings } from 'lucide-react'; // Changed icons
 import { motion } from 'framer-motion';
 
 interface LayoutProps {
@@ -13,7 +14,6 @@ interface LayoutProps {
 export const Layout: React.FC<LayoutProps> = ({ children, tenant, onNavigate, currentView }) => {
   return (
     <div className="min-h-screen bg-paper font-sans text-charcoal selection:bg-oldGold selection:text-white flex flex-col">
-      {/* Header */}
       <header className="sticky top-0 z-50 bg-paper/90 backdrop-blur-sm border-b border-oldGold/20">
         <div className="max-w-md mx-auto px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3" onClick={() => onNavigate('dashboard')}>
@@ -27,12 +27,12 @@ export const Layout: React.FC<LayoutProps> = ({ children, tenant, onNavigate, cu
           </div>
           
           {tenant && (
-            <div className="flex items-center gap-2">
-                <span className="text-xs font-medium text-gray-500 uppercase tracking-wide hidden sm:block">
+            <div className="flex items-center gap-1.5">
+                <span className="text-xs font-semibold text-gray-600 text-right leading-tight max-w-[140px]">
                     {tenant.name}
                 </span>
                 <div 
-                    className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold"
+                    className="w-8 h-8 rounded-full flex items-center justify-center text-white text-xs font-bold shadow-sm"
                     style={{ backgroundColor: tenant.primaryColor }}
                 >
                     {tenant.name.substring(0, 2).toUpperCase()}
@@ -42,7 +42,6 @@ export const Layout: React.FC<LayoutProps> = ({ children, tenant, onNavigate, cu
         </div>
       </header>
 
-      {/* Main Content Area */}
       <main className="flex-1 max-w-md mx-auto w-full px-4 py-6 relative">
         <motion.div
             key={currentView}
@@ -55,8 +54,7 @@ export const Layout: React.FC<LayoutProps> = ({ children, tenant, onNavigate, cu
         </motion.div>
       </main>
 
-      {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 pb-safe">
+      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 pb-safe z-50">
         <div className="max-w-md mx-auto flex justify-around items-center h-16">
             <NavButton 
                 active={currentView === 'dashboard'} 
@@ -65,9 +63,15 @@ export const Layout: React.FC<LayoutProps> = ({ children, tenant, onNavigate, cu
                 onClick={() => onNavigate('dashboard')}
             />
             <NavButton 
+                active={currentView === 'global'} 
+                icon={<HeartHandshake size={20} />} 
+                label="Impacto" 
+                onClick={() => onNavigate('global')}
+            />
+            <NavButton 
                 active={currentView === 'ranking'} 
-                icon={<Award size={20} />} 
-                label="Ranking" 
+                icon={<Users size={20} />} 
+                label="Comunidade" 
                 onClick={() => onNavigate('ranking')}
             />
              <NavButton 

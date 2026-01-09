@@ -9,6 +9,29 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <script>
+      // Global error handler
+      window.addEventListener('error', (event) => {
+        const root = document.getElementById('root');
+        console.error("Critical Error:", event.error);
+        if (root) {
+           root.innerHTML = `
+             <div style="padding: 20px; text-align: center; color: #b71c1c;">
+               <h2>Erro ao carregar</h2>
+               <p>${event.message}</p>
+             </div>
+           `;
+        }
+      });
+
+      // SETUP DA API KEY
+      // Para testar, insira sua chave abaixo. Em produção, isso viria de um backend seguro.
+      window.process = {
+        env: {
+          NODE_ENV: 'development',
+          API_KEY: '' // <--- INSIRA SUA API KEY AQUI PARA A IA FUNCIONAR
+        }
+      };
+
       tailwind.config = {
         theme: {
           extend: {
@@ -30,39 +53,35 @@
       }
     </script>
     <style>
-      body {
-        background-color: #FDFBF7;
-        color: #1A1A1A;
-      }
-      /* Custom Scrollbar */
-      ::-webkit-scrollbar {
-        width: 8px;
-      }
-      ::-webkit-scrollbar-track {
-        background: #FDFBF7; 
-      }
-      ::-webkit-scrollbar-thumb {
-        background: #CFB53B; 
-        border-radius: 4px;
-      }
-      ::-webkit-scrollbar-thumb:hover {
-        background: #CD7F32; 
-      }
+      body { background-color: #FDFBF7; color: #1A1A1A; }
+      .initial-loader { height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #CFB53B; font-family: serif; }
     </style>
   <script type="importmap">
 {
   "imports": {
-    "lucide-react": "https://esm.sh/lucide-react@^0.562.0",
+    "react": "https://esm.sh/react@18.2.0",
+    "react/jsx-runtime": "https://esm.sh/react@18.2.0/jsx-runtime",
+    "react-dom": "https://esm.sh/react-dom@18.2.0?deps=react@18.2.0",
+    "react-dom/client": "https://esm.sh/react-dom@18.2.0/client?deps=react@18.2.0",
+    "lucide-react": "https://esm.sh/lucide-react@0.292.0?deps=react@18.2.0",
+    "framer-motion": "https://esm.sh/framer-motion@10.16.4?deps=react@18.2.0,react-dom@18.2.0",
+    "@google/genai": "https://esm.sh/@google/genai@0.1.2?deps=react@18.2.0",
     "react-dom/": "https://esm.sh/react-dom@^19.2.3/",
-    "framer-motion": "https://esm.sh/framer-motion@^12.24.12",
-    "react/": "https://esm.sh/react@^19.2.3/",
-    "react": "https://esm.sh/react@^19.2.3",
-    "@google/genai": "https://esm.sh/@google/genai@0.1.2"
+    "react/": "https://esm.sh/react@^19.2.3/"
   }
 }
 </script>
 </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+        <div class="initial-loader">
+            <svg class="animate-spin h-10 w-10 mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+            </svg>
+            <span class="text-xl font-bold">Iniciando App...</span>
+        </div>
+    </div>
+    <script type="module" src="./index.tsx"></script>
   </body>
 </html>

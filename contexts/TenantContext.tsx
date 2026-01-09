@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { Tenant } from '../types';
-import { fetchTenantContext } from '../services/api';
+import { Tenant } from '../types.ts';
+import { fetchTenantContext } from '../services/api.ts';
 
 interface TenantContextType {
   tenant: Tenant | null;

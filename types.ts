@@ -1,3 +1,4 @@
+
 // Domain Entities
 
 export interface Tenant {
@@ -6,6 +7,9 @@ export interface Tenant {
   type: 'SCHOOL' | 'CHURCH';
   logoUrl?: string;
   primaryColor: string; // Used for accent injection
+  leaderName?: string;
+  leaderTitle?: string;
+  weeklyMessage?: string;
 }
 
 export enum LessonStatus {
@@ -38,4 +42,86 @@ export interface UserProgress {
   completedLessonIds: string[];
   currentStreak: number;
   totalInsights: number;
+  // New internal metric for the "S Rate" logic
+  lastInsightQuality?: 'S' | 'A' | 'B'; 
+}
+
+// New Incentive Types
+export type IncentiveType = 'DAILY_MISSION' | 'STREAK_KEEPER' | 'INSIGHT_MASTER';
+
+export interface IncentiveState {
+  id: string; // Unique ID for selection
+  type: IncentiveType;
+  isUnlocked: boolean;
+  isSent: boolean;
+  label: string;
+  description: string;
+  value: number; // How many 'points' of light it gives
+}
+
+// Updated Ranking/Community Types
+export interface CommunityMember {
+  userId: string;
+  name: string;
+  avatarColor: string;
+  rank: number;
+  
+  // New Metrics
+  booksRead: number;
+  versesPerDay: number;
+  incentivesSent: number; // The main ranking metric now
+  
+  likesReceived: number;
+  isLikedByCurrentUser: boolean;
+}
+
+export interface SimpleAvatar {
+    id: string;
+    initial: string;
+    color: string;
+    message?: string; // Short thought like "Amém", "Forte", "Lendo"
+}
+
+export interface ActiveBookCommunity {
+    bookName: string;
+    totalReaders: number;
+    activeAvatars: SimpleAvatar[]; // A sample of users to show floating
+    recentInsights: number;
+}
+
+// Global Community Heatmap
+export interface CommunityGlobalStatus {
+    totalOnline: number;
+    activeClusters: ActiveBookCommunity[];
+}
+
+// Impact / Echo Types
+export interface Echo {
+    id: string;
+    userName: string;
+    userAvatarColor: string;
+    timestamp: string;
+    bibleReference: string;
+    content: string;
+    isCurrentUser?: boolean; // New field to identify the center node
+    userReaction?: 'AMEM' | 'LUZ' | 'CAMINHO';
+    reactions: {
+        amem: number;
+        luz: number;
+        caminho: number;
+    };
+}
+
+export interface CommunityGoal {
+    title: string;
+    percentage: number;
+    currentValue: number;
+    targetValue: number;
+    unit: string;
+    // New detailed stats
+    weeklyStats: {
+        totalMinutesRead: number;
+        activeParticipants: number;
+        insightsShared: number;
+    }
 }
